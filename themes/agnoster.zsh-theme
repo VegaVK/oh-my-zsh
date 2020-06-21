@@ -86,12 +86,12 @@ prompt_end() {
 ### Prompt components
 # Each component will draw itself, and hide itself if no information needs to be shown
 
-# Context: user@hostname (who am I and where am I)
-prompt_context() {
-  if [[ "$USER" != "$DEFAULT_USER" || -n "$SSH_CLIENT" ]]; then
-    prompt_segment black default "%(!.%{%F{yellow}%}.)%n@%m"
-  fi
-}
+# Context: user@hostname (who am I and where am I) - COMMENTED OUT the function prompt_context() below as well
+#prompt_context() {
+#  if [[ "$USER" != "$DEFAULT_USER" || -n "$SSH_CLIENT" ]]; then
+#    prompt_segment black default "%(!.%{%F{yellow}%}.)%n@%m"
+#  fi
+#}
 
 # Git: branch/detached head, dirty status
 prompt_git() {
@@ -135,7 +135,8 @@ prompt_git() {
     zstyle ':vcs_info:*' formats ' %u%c'
     zstyle ':vcs_info:*' actionformats ' %u%c'
     vcs_info
-    echo -n "${ref/refs\/heads\//$PL_BRANCH_CHAR }${vcs_info_msg_0_%% }${mode}"
+		echo -n "$PL_BRANCH_CHAR"
+    #echo -n "${ref/refs\/heads\//$PL_BRANCH_CHAR }${vcs_info_msg_0_%% }${mode}"
   fi
 }
 
@@ -183,7 +184,7 @@ prompt_hg() {
         # if working copy is clean
         prompt_segment green $CURRENT_FG
       fi
-      echo -n $(hg prompt "☿ {rev}@{branch}") $st
+      #echo -n $(hg prompt "☿ {rev}@{branch}") $st
     else
       st=""
       rev=$(hg id -n 2>/dev/null | sed 's/[^-0-9]//g')
@@ -197,7 +198,8 @@ prompt_hg() {
       else
         prompt_segment green $CURRENT_FG
       fi
-      echo -n "☿ $rev@$branch" $st
+			echo -n "☿"      
+			#echo -n "☿ $rev@$branch" $st
     fi
   fi
 }
@@ -248,7 +250,7 @@ build_prompt() {
   prompt_status
   prompt_virtualenv
   prompt_aws
-  prompt_context
+  #prompt_context
   prompt_dir
   prompt_git
   prompt_bzr
